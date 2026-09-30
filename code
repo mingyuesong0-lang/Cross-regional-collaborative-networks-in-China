@@ -1,0 +1,214 @@
+***基础回归
+clear
+drop if year<2013
+drop if year>2022
+***基础回归
+xtset 区县代码  year
+
+reghdfe LIG CDP INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID  , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1 INV  SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA INV SAV SOD  POD  FID  , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID  , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1 INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA INV SAV SOD  POD  FID  , absorb( 区县代码 year) vce(robust)
+outreg2 using 20250212.doc,append bdec(3) tdec(3)
+
+
+
+**# 异质性 #1
+****1.受援县差异 √
+reghdfe LIG CDP INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+*财政压力大的地区，协作产生的作用越大-更大动力推动互动--显著
+reghdfe LIG CDP INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 高财政压力==1 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,replace bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV SAV SOD  POD  FID if 高财政压力==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+*财政压力大的地区，协作产生的作用越大-更大动力推动互动--显著
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 高财政压力==1 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV SAV SOD  POD  FID if 高财政压力==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.09.doc,append bdec(3) tdec(3)
+
+
+
+**2. 政策创新能力 √
+clear
+drop if year<2013
+drop if year>2022
+***基础回归
+xtset 区县代码  year
+
+**有创新
+replace 有无创新=1 if 有无创新!=0
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 有无创新==1 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+**无创新
+sum CDP if 有无创新==0 
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 有无创新==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 有无创新==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV  SOD  POD  FID if 有无创新==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV  SOD  POD  FID if 有无创新==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+
+reghdfe LIG CDP INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 有无创新==1 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV SAV SOD  POD  FID if 有无创新==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+**无创新
+sum CDP if 有无创新==0 
+reghdfe LIG CDP INV SAV SOD  POD  FID if 有无创新==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 有无创新==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV  SOD  POD  FID if 有无创新==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV  SOD  POD  FID if 有无创新==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+
+***3.结对县差别:市县结对 √
+reghdfe LIG CDP INV SAV SOD  POD  FID if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID  if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV SAV SOD  POD  FID  if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+**无
+reghdfe LIG CDP INV SAV SOD  POD  FID if 市县结对==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID if 市县结对==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID if 市县结对==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CBB1  INV SAV SOD  POD  FID  if 市县结对==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV SAV SOD  POD  FID  if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV SAV SOD  POD  FID  if 市县结对==1, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+**无
+reghdfe GAP_PGDP CDP INV SAV SOD  POD  FID if 市县结对==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3) 
+reghdfe GAP_PGDP CBA INV SAV SOD  POD  FID if 市县结对==0 , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CCA  INV SAV SOD  POD  FID if 市县结对==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe GAP_PGDP CBB1  INV SAV SOD  POD  FID  if 市县结对==0, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+
+******稳健性检验 #1*****
+clear
+drop if year<2013
+drop if year>2022
+xtset 区县代码  year
+**# 稳健性检验 #1 增加控制变量√-数字化程度DIG 当年是否为贫困县
+reghdfe LIG CDP INV SAV SOD  POD  FID DIG 当年是否为贫困县, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID DIG 当年是否为贫困县, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID DIG 当年是否为贫困县, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+
+**# 稳健性检验 #2年份缩小
+clear
+xtset 区县代码  year
+drop if year<2016
+drop if year>2022
+
+reghdfe LIG CDP INV SAV SOD  POD  FID, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe LIG CBA INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG CCA  INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+  
+**# 稳健性检验 #3替换变量
+clear
+xtset 区县代码  year
+drop if year<2013
+drop if year>2022
+
+gen 汇总=开展产业合作_汇总 +组织劳务协作_汇总 +加强人才支援_汇总+ 加大资金支持_汇总 +协作机制_汇总
+gen 正式=开展产业合作_签订产业合作协议+ 组织劳务协作_签订劳务合作协议 +协作机制_签订合作协议+开展产业合作_产业协作工作会议 +组织劳务协作_劳务协作工作会议 +加强人才支援_人才支援工作会议 +协作机制_工作部署会议
+gen 协议=开展产业合作_签订产业合作协议+ 组织劳务协作_签订劳务合作协议 +协作机制_签订合作协议
+gen CCQ=联席会_汇总 +签署协议_汇总
+replace CCQ=0 if CCQ==.
+gen CCF=CCQ/汇总
+gen CFF=正式/汇总
+gen CAF=协议/汇总
+
+xtset 区县代码  year
+reghdfe LIG CAF  INV SAV SOD  POD  FID, absorb( 省份ID year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3)
+
+
+**# 稳健性检验 #4增加滞后
+clear
+drop if year<2013
+drop if year>2022
+xtset 区县代码  year
+reghdfe LIG l.CDP INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,replace bdec(3) tdec(3) 
+reghdfe LIG l.CBA INV SAV SOD  POD  FID , absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
+reghdfe LIG l.CCA  INV SAV SOD  POD  FID, absorb( 区县代码 year) vce(robust)
+outreg2 using 2025.02.07基础回归.doc,append bdec(3) tdec(3)
